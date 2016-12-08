@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang='en' ng-app='reminder'>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+		<script src="js/angular.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/index.js"></script>
+	</head>
+	<body ng-controller='mainCtrl'>
+		<div class="icloud">
+			<div class="leftcontent">
+				<div class="left-top-view">
+					<div class="includeIx">
+						<div class="iclo"></div>
+						<div class="shixiang">提醒事项</div>	
+						<div class="chevron"></div>
+					</div>
+					<div class="add" ng-click='add();savelocal()'></div>
+				</div>
+				<div class="sc-outline">
+					 <div class="scheduled-icon"></div>
+					 <label class="title">已计划</label>	
+				</div>
+				<div id="listbox" ng-ui>
+					<div class="atv4" ng-repeat='v in lists track by $index'>
+						<div class="sc-outline">
+							 <div class="color-icon {{v.theme}}"></div>
+							 <input type='text' class="title" ng-model='v.name' ng-keyup='savelocal()'/>
+							 <div title="编辑共享设置" class="share-icon-container"></div>
+						</div>
+						<div class="row-divider-bottom"></div>
+					</div>
+				</div>
+			</div>
+			<div class="rightcontent">
+				<div class="right-top-view">
+					<div class="rightcont-search">
+						<div class="search-icon"><div class="sicon"></div></div>
+						<input type="" name="flied" class="flied" value="搜索所有提醒"/>
+					</div>	
+					<div class="leftcont-search">
+						<div class="help">
+							<div class="username">
+								用户名
+								<div class="chevron"></div>
+							</div>
+						    <div class="shuxian"></div>
+							<div class="help-icon"></div>
+						</div>
+				    </div>
+				</div>
+				
+				<div class="right-box-view">
+					<div class="listchoic">
+						<div class="bigsize {{lists[cu].theme}}" ng-keyup='savelocal()'>
+							{{lists[cu].name}}
+						</div>
+						<div class="xuanxiang" >
+							 <div id='cengji' class="choices {{lists[cu].theme}}" ng-c>选项</div>
+							<div class="kuang">
+								<div class="border5">
+									<div class="borderbox">
+										<div class="boxtop">
+											<div class="padding">
+												<input type="text" ng-model='lists[cu].name' class="{{lists[cu].theme}}" ng-keyup='savelocal()'/>
+											</div>
+										</div>
+										<div class="listcolor">列表颜色</div>
+										<ul class="selection-circle" ng-n>
+											<li  ng-class='{first_color:v=="purple"}' ng-repeat='v in colorlist' ng-click='lists[cu].theme=v;savelocal()'>
+												<div class="collection-color-icon {{v}}"></div>
+											</li>
+											<!--<li><div class="collection-color-icon green"></div></li>
+											<li><div class="collection-color-icon blue"></div></li>
+											<li><div class="collection-color-icon yellow"></div></li>
+											<li><div class="collection-color-icon brown"></div></li>
+											<li><div class="collection-color-icon red"></div></li>
+											<li><div class="collection-color-icon orange"></div></li>-->
+										</ul>	
+										<div class="colorbottom">
+											<div class="remove" ng-click='remove($index);savelocal()'>
+												删除
+											</div>
+											<div class="qufi">
+												<div class="quxiao" ng-click='qexiao()'>取消</div>
+												<div class="shu"></div>
+												<div class="fished">完成</div>											</div>
+										</div>
+									</div>
+									<div class="topborder"></div>
+								</div>
+								<div class="jiao"></div>
+							</div>
+						</div>
+						<div class="row-divider-top"></div>
+						<div class="right-bottom-box">
+							<div class="fishedcontent">
+								<div class="bottom-open" ngbottom></div>
+							    <div class="xiangmu">
+							     	已完成：{{count()}}项
+							    </div>
+							    <div class="xuanxiang" >
+							    	<div class="choices {{lists[cu].theme}}" ng-click='removeall();savelocal()'>清除已完成事项</div>
+							    </div>
+							    <div class="xian"></div>
+					     	</div>
+					     	<div class="centerbox-wancheng">
+					     		<div class="finished" ng-init='a=2'>
+					     			<div class="culine" ng-repeat='v in lists[cu].todos track by $index' ng-if='v.status===1'>
+					     				<div class="controller {{lists[cu].theme}}" ng-click='v.status=0;savelocal()'>
+					     					<div class="circle  {{lists[cu].theme}}">
+					     					</div>
+					     				</div>
+					     				<input type="text" class="content-inter {{lists[cu].theme}}" ng-model='v.name' ng-click='a=1' ng-keyup='savelocal()'/>
+					     				<div class="backbox   {{lists[cu].theme}}"></div>
+					     				<div class="xuanxiang" >
+								    		<div class="choices {{lists[cu].theme}} xinxi" ng-c ng-class='{show:(a===1)}'>详细信息</div>
+								    		<div class="xqbox">
+								    			<div class="innerbox">
+								    				<div class="xq">详细信息</div>
+								    				<div class="tixin">提醒我</div>
+								    				<div class="shijian">
+								    					<span class="buttun"></span><span>在以下时间提醒我</span>
+								    				</div>
+								    				<div class="reminder">
+								    					
+								    				</div>
+								    				<div class="bottom" xx>
+								    					<div class="move" ng-click='removesingle();savelocal()'>删除</div>
+								    					<div class="finish">完成</div>
+								    				</div>
+								    			</div>
+								    			<div class="jiao two"></div>
+								    		</div>
+								    	</div>
+					     				<div class="xian"></div>
+					     			</div>
+					     		</div>	
+					     		 <div class="gekai25"></div>
+					     		 <div class="unfinished" unfinish ng-init='a=2'>
+					     		 	 <div class="culine" ng-repeat='v in lists[cu].todos track by $index' ng-if='v.status===0'>
+					     				<div class="controller  {{lists[cu].theme}}" ng-click='v.status=1;savelocal()'>
+					     					<div class="circle  {{lists[cu].theme}}" ng-class='{display:(v.status===0)}'>
+					     					</div>
+					     				</div>
+					     				<input type="text" class="content-inter {{lists[cu].theme}}" ng-model='v.name' ng-keyup='savelocal()' ng-click='a=1'/>
+					     				<div class="backbox   {{lists[cu].theme}}"></div>
+					     				<div class="xuanxiang">
+								    		<div class="choices {{lists[cu].theme}} xinxi" ng-c ng-class='{show:(a===1)}'>详细信息</div>
+								    		<div class="xqbox">
+								    			<div class="innerbox">
+								    				<div class="xq">详细信息</div>
+								    				<div class="tixin">提醒我</div>
+								    				<div class="shijian">
+								    					<span class="buttun"></span><span>在以下时间提醒我</span>
+								    				</div>
+								    				<div class="reminder">
+								    					
+								    				</div>
+								    				<div class="bottom" xx>
+								    					<div class="move" ng-click='removesingle();savelocal()'>删除</div>
+								    					<div class="finish">完成</div>
+								    				</div>
+								    			</div>
+								    			<div class="jiao two"></div>
+								    		</div>
+								    		
+								    	</div>
+					     				<div class="xian"></div>
+					     			</div>
+					     		 </div>	
+					     	</div>
+					     	<div class="datecontent" click ng-click='addItem();savelocal()'>
+					     		<div class="xiangmu">
+						     		新项目...
+						     	</div>
+						     	<div class="xian"></div>
+						    </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tianchuK">
+			<div class="box">
+				<div class="picture"></div>
+			    <div class="movelist">删除“新列表”？</div>
+				<div class="contentremove">其中所有提醒事项都将永久删除。</div>		
+				<div class="removebottom">
+						<div class="quxiao">取消</div>
+						<div class="shanchu">删除列表</div>	
+				</div>	
+			</div>
+		</div>
+	</body>
+</html>
